@@ -13,28 +13,27 @@ namespace AvaloniaGif
     public class GifImage : Control
     {
         public static readonly StyledProperty<string> SourceUriRawProperty =
-            AvaloniaProperty.Register<GifImage, string>("SourceUriRaw");
+            AvaloniaProperty.Register<GifImage, string>(nameof(SourceUriRaw));
 
         public static readonly StyledProperty<Uri> SourceUriProperty =
-            AvaloniaProperty.Register<GifImage, Uri>("SourceUri");
+            AvaloniaProperty.Register<GifImage, Uri>(nameof(SourceUri));
 
         public static readonly StyledProperty<Stream> SourceStreamProperty =
-            AvaloniaProperty.Register<GifImage, Stream>("SourceStream");
+            AvaloniaProperty.Register<GifImage, Stream>(nameof(SourceStream));
 
         public static readonly StyledProperty<IterationCount> IterationCountProperty =
-            AvaloniaProperty.Register<GifImage, IterationCount>("IterationCount", IterationCount.Infinite);
-
-        private GifInstance gifInstance;
+            AvaloniaProperty.Register<GifImage, IterationCount>(nameof(IterationCount), IterationCount.Infinite);
 
         public static readonly StyledProperty<bool> AutoStartProperty =
-            AvaloniaProperty.Register<GifImage, bool>("AutoStart");
+            AvaloniaProperty.Register<GifImage, bool>(nameof(AutoStart));
 
         public static readonly StyledProperty<StretchDirection> StretchDirectionProperty =
-            AvaloniaProperty.Register<GifImage, StretchDirection>("StretchDirection");
+            AvaloniaProperty.Register<GifImage, StretchDirection>(nameof(StretchDirection));
 
         public static readonly StyledProperty<Stretch> StretchProperty =
-            AvaloniaProperty.Register<GifImage, Stretch>("Stretch");
+            AvaloniaProperty.Register<GifImage, Stretch>(nameof(Stretch));
 
+        private GifInstance gifInstance;
         private RenderTargetBitmap backingRTB;
         private bool _hasNewSource;
         private object? _newSource;
@@ -167,6 +166,7 @@ namespace AvaloniaGif
 
         public void Stop()
         {
+            _stopwatch.Reset();
             _stopwatch.Stop();
         }
 
