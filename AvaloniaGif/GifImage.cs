@@ -42,11 +42,6 @@ namespace AvaloniaGif
 
         static GifImage()
         {
-            SourceUriRawProperty.Changed.Subscribe(SourceChanged);
-            SourceUriProperty.Changed.Subscribe(SourceChanged);
-            SourceStreamProperty.Changed.Subscribe(SourceChanged);
-            IterationCountProperty.Changed.Subscribe(IterationCountChanged);
-            AutoStartProperty.Changed.Subscribe(AutoStartChanged);
             AffectsRender<GifImage>(SourceStreamProperty, SourceUriProperty, SourceUriRawProperty, StretchProperty);
             AffectsArrange<GifImage>(SourceStreamProperty, SourceUriProperty, SourceUriRawProperty, StretchProperty);
             AffectsMeasure<GifImage>(SourceStreamProperty, SourceUriProperty, SourceUriRawProperty, StretchProperty);
@@ -114,7 +109,7 @@ namespace AvaloniaGif
         {
             Dispatcher.UIThread.Post(InvalidateMeasure, DispatcherPriority.Background);
             Dispatcher.UIThread.Post(InvalidateVisual, DispatcherPriority.Background);
-            
+
             if (_hasNewSource)
             {
                 StopAndDispose();
@@ -208,8 +203,19 @@ namespace AvaloniaGif
             backingRTB?.Dispose();
         }
 
-        private static void SourceChanged(AvaloniaPropertyChangedEventArgs e)
+        protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
         {
+            base.OnPropertyChanged(e);
+
+            if (e.Property != SourceUriRawProperty
+                && e.Property != SourceUriProperty
+                && e.Property != SourceStreamProperty
+                && e.Property != IterationCountProperty
+                && e.Property != AutoStartProperty)
+            {
+                return;
+            }
+
             var image = e.Sender as GifImage;
 
             if (image == null)

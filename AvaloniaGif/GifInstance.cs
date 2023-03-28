@@ -8,7 +8,6 @@ using Avalonia.Animation;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using AvaloniaGif.Decoding;
-using JetBrains.Annotations;
 
 namespace AvaloniaGif
 {
@@ -112,7 +111,6 @@ namespace AvaloniaGif
             _targetBitmap?.Dispose();
         }
 
-        [CanBeNull]
         public WriteableBitmap ProcessFrameTime(TimeSpan stopwatchElapsed)
         {
             if (!IterationCount.IsInfinite && _iterationCount > IterationCount.Value)
