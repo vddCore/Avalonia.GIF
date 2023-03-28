@@ -89,13 +89,6 @@ namespace AvaloniaGif
             set => SetValue(StretchProperty, value);
         }
 
-        private static void AutoStartChanged(AvaloniaPropertyChangedEventArgs e)
-        {
-            var image = e.Sender as GifImage;
-            if (image == null)
-                return;
-        }
-
         private static void IterationCountChanged(AvaloniaPropertyChangedEventArgs e)
         {
             var image = e.Sender as GifImage;
@@ -130,10 +123,13 @@ namespace AvaloniaGif
                 return;
             }
 
-            if (!_stopwatch.IsRunning)
+            if (AutoStart)
             {
-                _stopwatch.Start();
-            }
+                if (!_stopwatch.IsRunning)
+                {
+                    _stopwatch.Start();
+                }
+            }   
 
             var currentFrame = gifInstance.ProcessFrameTime(_stopwatch.Elapsed);
 
@@ -162,6 +158,16 @@ namespace AvaloniaGif
 
                 context.DrawImage(backingRTB, sourceRect, destRect, interpolationMode);
             }
+        }
+
+        public void Start()
+        {
+            _stopwatch.Start();
+        }
+
+        public void Stop()
+        {
+            _stopwatch.Stop();
         }
 
         /// <summary>
@@ -214,6 +220,11 @@ namespace AvaloniaGif
                 && e.Property != AutoStartProperty)
             {
                 return;
+            }
+
+            if (e.Property == IterationCountProperty)
+            {
+                IterationCountChanged(e);
             }
 
             var image = e.Sender as GifImage;
