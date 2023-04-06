@@ -134,9 +134,9 @@ namespace AvaloniaGif
 
             if (currentFrame is { } source && backingRTB is { })
             {
-                using var ctx = backingRTB.CreateDrawingContext(null);
+                using var ctx = backingRTB.CreateDrawingContext();
                 var ts = new Rect(source.Size);
-                ctx.DrawBitmap(source.PlatformImpl, 1, ts, ts);
+                ctx.DrawImage(source, ts, ts);
             }
 
             if (backingRTB is not null && Bounds.Width > 0 && Bounds.Height > 0)
