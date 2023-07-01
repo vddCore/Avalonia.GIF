@@ -132,11 +132,11 @@ namespace AvaloniaGif
 
             var currentFrame = gifInstance.ProcessFrameTime(_stopwatch.Elapsed);
 
-            if (currentFrame is { } source && backingRTB is { })
+            if (currentFrame is { } source && backingRTB is not null)
             {
-                using var ctx = backingRTB.CreateDrawingContext(null);
+                using var ctx = backingRTB.CreateDrawingContext();
                 var ts = new Rect(source.Size);
-                ctx.DrawBitmap(source.PlatformImpl, 1, ts, ts);
+                ctx.DrawImage(source, ts, ts);
             }
 
             if (backingRTB is not null && Bounds.Width > 0 && Bounds.Height > 0)
@@ -153,9 +153,11 @@ namespace AvaloniaGif
                 var sourceRect = new Rect(sourceSize)
                     .CenterRect(new Rect(destRect.Size / scale));
 
-                var interpolationMode = RenderOptions.GetBitmapInterpolationMode(this);
-
-                context.DrawImage(backingRTB, sourceRect, destRect, interpolationMode);
+                context.DrawImage(
+                    backingRTB, 
+                    sourceRect,
+                    destRect
+                );
             }
         }
 
